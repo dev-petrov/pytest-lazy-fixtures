@@ -1,0 +1,76 @@
+[tool.poetry]
+name = "pytest-lazy-fixtures"
+version = "0.1.0"
+description = "Allows you to use fixtures in @pytest.mark.parametrize."
+authors = ["Petrov Anton <antonp2@yandex.ru>"]
+readme = "README.md"
+license = "MIT"
+homepage = "https://github.com/dev-petrov/pytest-lazy-fixtures"
+repository = "https://github.com/dev-petrov/pytest-lazy-fixtures"
+keywords = ["tests", "pytest", "lazy", "fixture"]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+pytest = "^7.2.1"
+
+[tool.poetry.group.dev.dependencies]
+black = "^22.8.0"
+pre-commit = "^2.20.0"
+pytest-cov = "^4.0.0"
+ruff = "^0.0.254"
+mypy = "^1.1.1"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.pytest.ini_options]
+python_files = ["tests.py", "test_*.py", "*_tests.py"]
+
+[tool.poetry.plugins."pytest11"]
+"pytest_lazyfixture" = "pytest_lazy_fixtures.plugin"
+
+[tool.black]
+line-length=120
+target-version = ["py39"]
+exclude = '''
+/(
+    \.git
+  | \.hg
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | _build
+  | buck-out
+  | build
+  | dist
+)/
+'''
+
+[tool.ruff]
+select = [
+    "E", # pycodestyle errors
+    "W", # pycodestyle warnings
+    "F", # pyflakes
+    "I", # isort
+    "C", # flake8-comprehensions
+    "B", # flake8-bugbear
+    "T", # flake8-print
+    "UP", # pyupgrade
+    "N", # pep8-naming
+    "COM", # flake8-commas
+    "SIM", # flake8-simplify
+]
+# Exclude a variety of commonly ignored directories.
+exclude = [
+    ".git",
+    ".venv",
+]
+line-length = 120
+target-version = "py39"
+
+[tool.ruff.mccabe]
+max-complexity = 10
+
+[tool.ruff.pep8-naming]
+classmethod-decorators = ["classmethod"]
