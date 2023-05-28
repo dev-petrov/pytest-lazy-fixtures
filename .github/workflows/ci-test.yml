@@ -18,12 +18,13 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-      - name: Set up Python 3.9
+      - name: Set up Python 3.8
         uses: actions/setup-python@v3
         with:
-          python-version: "3.9"
+          python-version: "3.8"
       - name: Install dependencies
         run: |
+          export POETRY_VERSION=1.4.2
           curl -sSL https://install.python-poetry.org | python3 -
           poetry install --no-ansi --no-root
       - name: Lint with ruff
