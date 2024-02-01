@@ -20,9 +20,10 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v3
         with:
-          python-version: "3.9"
+          python-version: "3.8"
       - name: Install dependencies
         run: |
+          export POETRY_VERSION=1.7.1
           curl -sSL https://install.python-poetry.org | python3 -
       - name: Build and Publish package
         run: |

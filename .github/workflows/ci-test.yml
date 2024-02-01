@@ -24,7 +24,7 @@ jobs:
           python-version: "3.8"
       - name: Install dependencies
         run: |
-          export POETRY_VERSION=1.4.2
+          export POETRY_VERSION=1.7.1
           curl -sSL https://install.python-poetry.org | python3 -
           poetry install --no-ansi --no-root
       - name: Lint with ruff
