@@ -19,10 +19,7 @@ def _get_fixturenames_closure_and_arg2fixturedefs(fm, metafunc, value) -> Tuple[
             metafunc,
             value.kwargs,
         )
-        return [
-            *extra_fixturenames_args,
-            *extra_fixturenames_kwargs,
-        ], {
+        return [*extra_fixturenames_args, *extra_fixturenames_kwargs], {
             **arg2fixturedefs_args,
             **arg2fixturedefs_kwargs,
         }
