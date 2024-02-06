@@ -3,7 +3,7 @@ import pytest
 from pytest_lazy_fixtures import lf, lfc
 from pytest_lazy_fixtures.lazy_fixture import LazyFixtureWrapper
 from pytest_lazy_fixtures.lazy_fixture_callable import LazyFixtureCallableWrapper
-from tests.entity import Entity
+from tests.entity import DataNamedTuple, Entity
 
 
 def test_lazy_fixture_repr():
@@ -73,3 +73,9 @@ def test_lazy_fixture_callable_with_lf(formatted, entity):
 @pytest.mark.parametrize("result", [lfc("entity.sum", lf("two"))])
 def test_lazy_fixture_callable_with_attr_lf(result):
     assert result == 3
+
+
+@pytest.mark.parametrize("data", [DataNamedTuple(a=1, b=2)])
+def test(data):
+    assert data.a == 1
+    assert data.b == 2
