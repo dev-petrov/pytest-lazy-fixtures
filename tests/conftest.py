@@ -1,5 +1,6 @@
 import pytest
 
+from pytest_lazy_fixtures import lf
 from tests.entity import Entity
 
 pytest_plugins = "pytest_lazy_fixtures.plugin"
@@ -36,3 +37,41 @@ def entity_format():
         return {"value": entity.value}
 
     return _entity_format
+
+
+@pytest.fixture
+def service1(fixture1):
+    return 1
+
+
+@pytest.fixture
+def service2(fixture1):
+    return 1
+
+
+@pytest.fixture
+def service3(fixture1):
+    return 1
+
+
+@pytest.fixture
+def service4(fixture1):
+    return 1
+
+
+@pytest.fixture
+def service5(fixture1):
+    return 1
+
+
+@pytest.fixture(
+    params=[
+        lf("service1"),
+        {"test": lf("service2")},
+        [lf("service3")],
+        (lf("service4"),),
+        {lf("service5")},
+    ],
+)
+def fixture2(request):
+    return None

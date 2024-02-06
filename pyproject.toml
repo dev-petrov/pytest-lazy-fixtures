@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "pytest-lazy-fixtures"
-version = "1.0.4"
+version = "1.0.5"
 description = "Allows you to use fixtures in @pytest.mark.parametrize."
 authors = ["Petrov Anton <antonp2@yandex.ru>"]
 readme = "README.md"
@@ -31,8 +31,8 @@ python_files = ["tests.py", "test_*.py", "*_tests.py"]
 "pytest_lazyfixture" = "pytest_lazy_fixtures.plugin"
 
 [tool.black]
-line-length=120
-target-version = ["py39"]
+line-length = 120
+target-version = ["py38"]
 exclude = '''
 /(
     \.git
@@ -49,25 +49,22 @@ exclude = '''
 
 [tool.ruff]
 select = [
-    "E", # pycodestyle errors
-    "W", # pycodestyle warnings
-    "F", # pyflakes
-    "I", # isort
-    "C", # flake8-comprehensions
-    "B", # flake8-bugbear
-    "T", # flake8-print
-    "UP", # pyupgrade
-    "N", # pep8-naming
-    "COM", # flake8-commas
-    "SIM", # flake8-simplify
+  "E",   # pycodestyle errors
+  "W",   # pycodestyle warnings
+  "F",   # pyflakes
+  "I",   # isort
+  "C",   # flake8-comprehensions
+  "B",   # flake8-bugbear
+  "T",   # flake8-print
+  "UP",  # pyupgrade
+  "N",   # pep8-naming
+  "COM", # flake8-commas
+  "SIM", # flake8-simplify
 ]
 # Exclude a variety of commonly ignored directories.
-exclude = [
-    ".git",
-    ".venv",
-]
+exclude = [".git", ".venv"]
 line-length = 120
-target-version = "py39"
+target-version = "py38"
 
 [tool.ruff.mccabe]
 max-complexity = 10
