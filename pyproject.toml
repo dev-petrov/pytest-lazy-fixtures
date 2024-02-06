@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "pytest-lazy-fixtures"
-version = "1.0.4"
+version = "1.0.5"
 description = "Allows you to use fixtures in @pytest.mark.parametrize."
 authors = ["Petrov Anton <antonp2@yandex.ru>"]
 readme = "README.md"
@@ -49,17 +49,17 @@ exclude = '''
 
 [tool.ruff]
 select = [
-    "E",   # pycodestyle errors
-    "W",   # pycodestyle warnings
-    "F",   # pyflakes
-    "I",   # isort
-    "C",   # flake8-comprehensions
-    "B",   # flake8-bugbear
-    "T",   # flake8-print
-    "UP",  # pyupgrade
-    "N",   # pep8-naming
-    "COM", # flake8-commas
-    "SIM", # flake8-simplify
+  "E",   # pycodestyle errors
+  "W",   # pycodestyle warnings
+  "F",   # pyflakes
+  "I",   # isort
+  "C",   # flake8-comprehensions
+  "B",   # flake8-bugbear
+  "T",   # flake8-print
+  "UP",  # pyupgrade
+  "N",   # pep8-naming
+  "COM", # flake8-commas
+  "SIM", # flake8-simplify
 ]
 # Exclude a variety of commonly ignored directories.
 exclude = [".git", ".venv"]
