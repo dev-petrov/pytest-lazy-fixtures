@@ -1,26 +1,28 @@
+# pytest-lazy-fixtures
+
 [![codecov](https://codecov.io/gh/dev-petrov/pytest-lazy-fixtures/branch/master/graph/badge.svg)](https://codecov.io/gh/dev-petrov/pytest-lazy-fixtures)
 [![CI](https://github.com/dev-petrov/pytest-lazy-fixtures/workflows/CI/badge.svg)](https://github.com/dev-petrov/pytest-lazy-fixtures/actions/workflows/ci-test.yml)
 [![PyPI version](https://badge.fury.io/py/pytest-lazy-fixtures.svg)](https://badge.fury.io/py/pytest-lazy-fixtures)
-# pytest-lazy-fixtures
 
 Use your fixtures in `@pytest.mark.parametrize`.
 
 This project was inspired by [pytest-lazy-fixture](https://github.com/TvoroG/pytest-lazy-fixture).
 
-Improvements that have been made in this project: 
-1. You can use fixtures in any data structures 
-2. You can access the attributes of fixtures 
+Improvements that have been made in this project:
+
+1. You can use fixtures in any data structures
+2. You can access the attributes of fixtures
 3. You can use functions in fixtures
 
+## Installation
 
-# Installation
 ```shell
 pip install pytest-lazy-fixtures
 ```
 
-# Usage
+## Usage
 
-To use your fixtures inside `@pytest.mark.parametrize` you can use `lf` (`lazy_fixture`).
+To use your fixtures inside `@pytest.mark.parametrize` you can use `lf` (`lazy_fixture`) or `pytest.lazy_fixtures`.
 
 ```python
 import pytest
@@ -33,9 +35,14 @@ def one():
 @pytest.mark.parametrize('arg1,arg2', [('val1', lf('one'))])
 def test_func(arg1, arg2):
     assert arg2 == 1
+
+@pytest.mark.parametrize('arg1,arg2', [('val1', pytest.lazy_fixtures('one'))])
+def test_func(arg1, arg2):
+    assert arg2 == 1
 ```
 
 `lf` can be used with any data structures. For example, in the following example, `lf` is used in the dictionary:
+
 ```python
 import pytest
 from pytest_lazy_fixtures import lf
@@ -50,6 +57,7 @@ def test_func(arg1, arg2):
 ```
 
 You can also specify getting an attribute through a dot:
+
 ```python
 import pytest
 from pytest_lazy_fixtures import lf
@@ -67,11 +75,12 @@ def test_func(arg1, arg2):
     assert arg2 == 1
 ```
 
-And there is some useful wrapper called `lfc` (`lazy_fixture_callable`). It can work with any callable and your fixtures, e.g.
+And there is some useful wrapper called `lfc` (`lazy_fixture_callable`) or `pytest.lazy_fixtures_callable`.
+It can work with any callable and your fixtures, e.g.
 
 ```python
 import pytest
-from pytest_lazy_fixtures import lf
+from pytest_lazy_fixtures import lf, lfc
 
 class Entity:
     def __init__(self, value):
@@ -128,11 +137,14 @@ def test_lazy_fixture_callable_with_attr_lf(result):
     assert result == 3
 ```
 
-# Contributing
+## Contributing
+
 Contributions are very welcome. Tests can be run with `pytest`.
 
-# License
+## License
+
 Distributed under the terms of the `MIT` license, `pytest-lazy-fixtures` is free and open source software
 
-# Issues
+## Issues
+
 If you encounter any problems, please file an issue along with a detailed description.
