@@ -38,7 +38,9 @@ jobs:
           poetry run mypy .
       - name: Test with pytest
         run: |
-          poetry run coverage run -m pytest -p pytest_lazy_fixtures.plugin && coverage report && coverage xml -o cov.xml
+          poetry run coverage run -m pytest -p pytest_lazy_fixtures.plugin && \
+          poetry run coverage report && \
+          poetry run coverage xml -o cov.xml
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v2
         with:
