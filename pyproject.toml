@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "pytest-lazy-fixtures"
-version = "1.0.5"
+version = "1.0.6"
 description = "Allows you to use fixtures in @pytest.mark.parametrize."
 authors = ["Petrov Anton <antonp2@yandex.ru>"]
 readme = "README.md"
