@@ -3,8 +3,6 @@ import pytest
 from pytest_lazy_fixtures import lf
 from tests.entity import Entity
 
-pytest_plugins = "pytest_lazy_fixtures.plugin"
-
 
 @pytest.fixture
 def one():

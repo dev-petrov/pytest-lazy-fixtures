@@ -8,6 +8,7 @@ license = "MIT"
 homepage = "https://github.com/dev-petrov/pytest-lazy-fixtures"
 repository = "https://github.com/dev-petrov/pytest-lazy-fixtures"
 keywords = ["tests", "pytest", "lazy", "fixture"]
+include = [{ path = "tests", format = ["sdist"] }]
 
 [tool.poetry.dependencies]
 python = "^3.8"
