@@ -26,7 +26,7 @@ jobs:
         run: |
           export POETRY_VERSION=1.7.1
           curl -sSL https://install.python-poetry.org | python3 -
-          poetry install --no-ansi
+          poetry install --no-ansi --no-root
       - name: Lint with ruff
         run: |
           poetry run ruff .
@@ -38,7 +38,9 @@ jobs:
           poetry run mypy .
       - name: Test with pytest
         run: |
-          poetry run pytest --cov --cov-report xml:cov.xml
+          poetry run coverage run -m pytest -p pytest_lazy_fixtures.plugin && \
+          poetry run coverage report && \
+          poetry run coverage xml -o cov.xml
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v2
         with:
