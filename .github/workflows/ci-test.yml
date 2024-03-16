@@ -29,10 +29,10 @@ jobs:
           poetry install --no-ansi --no-root
       - name: Lint with ruff
         run: |
-          poetry run ruff .
+          poetry run ruff check --diff .
       - name: Check black
         run: |
-          poetry run black --check --diff .
+          poetry run ruff format --check --diff .
       - name: Check mypy
         run: |
           poetry run mypy .

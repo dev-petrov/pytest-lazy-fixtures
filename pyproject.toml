@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "pytest-lazy-fixtures"
-version = "1.0.6"
+version = "1.0.7"
 description = "Allows you to use fixtures in @pytest.mark.parametrize."
 authors = ["Petrov Anton <antonp2@yandex.ru>"]
 readme = "README.md"
@@ -15,7 +15,6 @@ python = "^3.8"
 pytest = ">=7"
 
 [tool.poetry.group.dev.dependencies]
-black = "^24.2.0"
 pre-commit = "^3.5.0"
 pytest-cov = "^4.1.0"
 ruff = "^0.3.0"
@@ -31,24 +30,13 @@ python_files = ["tests.py", "test_*.py", "*_tests.py"]
 [tool.poetry.plugins."pytest11"]
 "pytest_lazyfixture" = "pytest_lazy_fixtures.plugin"
 
-[tool.black]
-line-length = 120
-target-version = ["py38"]
-exclude = '''
-/(
-    \.git
-  | \.hg
-  | \.mypy_cache
-  | \.tox
-  | \.venv
-  | _build
-  | buck-out
-  | build
-  | dist
-)/
-'''
-
 [tool.ruff]
+line-length = 120
+target-version = "py38"
+# Exclude a variety of commonly ignored directories.
+exclude = [".git", ".venv"]
+
+[tool.ruff.lint]
 select = [
   "E",   # pycodestyle errors
   "W",   # pycodestyle warnings
@@ -62,15 +50,12 @@ select = [
   "COM", # flake8-commas
   "SIM", # flake8-simplify
 ]
-# Exclude a variety of commonly ignored directories.
-exclude = [".git", ".venv"]
-line-length = 120
-target-version = "py38"
+ignore = ["COM812"]
 
-[tool.ruff.mccabe]
+[tool.ruff.lint.mccabe]
 max-complexity = 10
 
-[tool.ruff.pep8-naming]
+[tool.ruff.lint.pep8-naming]
 classmethod-decorators = ["classmethod"]
 
 [tool.setuptools.package-data]
@@ -79,6 +64,4 @@ classmethod-decorators = ["classmethod"]
 [[tool.mypy.overrides]]
 # Disabled for tests because of dynamic nature of pytest
 module = "tests/*"
-disable_error_code = [
-  "attr-defined",
-]
+disable_error_code = ["attr-defined"]
