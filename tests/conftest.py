@@ -73,3 +73,13 @@ def service5(fixture1):
 )
 def fixture2(request):
     return None
+
+
+@pytest.fixture
+def fixture_a() -> str:
+    return "a"
+
+
+@pytest.fixture
+def fixture_b() -> str:
+    return "b"

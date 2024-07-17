@@ -143,3 +143,13 @@ def fixture1(request):
 
 def test_foo(fixture2):
     pass
+
+
+@pytest.mark.parametrize(
+    "test_dict",
+    [
+        {lf("fixture_a"): lf("fixture_b")},
+    ],
+)
+def test_dict_a_b(test_dict):
+    assert test_dict == {"a": "b"}
