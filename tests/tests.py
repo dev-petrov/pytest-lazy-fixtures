@@ -1,5 +1,6 @@
 import pytest
 
+from pytest_lazy_fixtures import lf, lfc
 from pytest_lazy_fixtures.lazy_fixture import LazyFixtureWrapper
 from pytest_lazy_fixtures.lazy_fixture_callable import LazyFixtureCallableWrapper
 from tests.entity import DataNamedTuple, Entity
@@ -17,8 +18,8 @@ def test_lazy_fixture_callable_repr():
     ("first", "second", "other"),
     [
         (
-            pytest.lazy_fixtures("one"),
-            pytest.lazy_fixtures("two"),
+            lf("one"),
+            lf("two"),
             4,
         ),
     ],
@@ -33,29 +34,29 @@ def test_lazy_fixture(first, second, other):
     ("actual", "expected"),
     [
         (
-            {"a": [pytest.lazy_fixtures("one"), pytest.lazy_fixtures("two")]},
+            {"a": [lf("one"), lf("two")]},
             {"a": [1, 2]},
         ),
         (
-            {"a": {pytest.lazy_fixtures("one"), pytest.lazy_fixtures("two")}},
+            {"a": {lf("one"), lf("two")}},
             {"a": {1, 2}},
         ),
         (
             {
-                pytest.lazy_fixtures("three"),
-                pytest.lazy_fixtures("two"),
-                pytest.lazy_fixtures("three"),
+                lf("three"),
+                lf("two"),
+                lf("three"),
             },
             {3, 2},
         ),
-        ([pytest.lazy_fixtures("three"), pytest.lazy_fixtures("two")], [3, 2]),
+        ([lf("three"), lf("two")], [3, 2]),
         (
             {
                 "first_level": {
                     "second_level": (
-                        pytest.lazy_fixtures("one"),
-                        pytest.lazy_fixtures("one"),
-                        pytest.lazy_fixtures("two"),
+                        lf("one"),
+                        lf("one"),
+                        lf("two"),
                     ),
                     "not_lazy_fixture": 1,
                 },
@@ -68,7 +69,7 @@ def test_lazy_fixture_data_types(actual, expected):
     assert actual == expected
 
 
-@pytest.mark.parametrize("item", [pytest.lazy_fixtures("four")])
+@pytest.mark.parametrize("item", [lf("four")])
 def test_lazy_fixture_with_fixtures(item):
     assert item == 4
 
@@ -77,8 +78,8 @@ def test_lazy_fixture_with_fixtures(item):
     "only_entity,entity_value",
     [
         (
-            pytest.lazy_fixtures("entity"),
-            pytest.lazy_fixtures("entity.value"),
+            lf("entity"),
+            lf("entity.value"),
         ),
     ],
 )
@@ -90,11 +91,11 @@ def test_lazy_fixture_with_attrs(only_entity, entity_value):
 @pytest.mark.parametrize(
     "message",
     [
-        pytest.lazy_fixtures_callable(
+        lfc(
             "There is two lazy fixture args, {} and {}! And one kwarg {field}! And also simple value {simple}".format,
-            pytest.lazy_fixtures("one"),
-            pytest.lazy_fixtures("two"),
-            field=pytest.lazy_fixtures("three"),
+            lf("one"),
+            lf("two"),
+            field=lf("three"),
             simple="value",
         ),
     ],
@@ -106,9 +107,9 @@ def test_lazy_fixture_callable_with_func(message):
 @pytest.mark.parametrize(
     "formatted",
     [
-        pytest.lazy_fixtures_callable(
+        lfc(
             "entity_format",
-            pytest.lazy_fixtures("entity"),
+            lf("entity"),
         ),
     ],
 )
@@ -119,9 +120,9 @@ def test_lazy_fixture_callable_with_lf(formatted, entity):
 @pytest.mark.parametrize(
     "result",
     [
-        pytest.lazy_fixtures_callable(
+        lfc(
             "entity.sum",
-            pytest.lazy_fixtures("two"),
+            lf("two"),
         ),
     ],
 )
