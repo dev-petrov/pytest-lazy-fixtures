@@ -12,7 +12,7 @@ include = [{ path = "tests", format = ["sdist"] }]
 
 [tool.poetry.dependencies]
 python = "^3.8"
-pytest = ">=7"
+pytest = "^7"
 
 [tool.poetry.group.dev.dependencies]
 pre-commit = "^3.5.0"
