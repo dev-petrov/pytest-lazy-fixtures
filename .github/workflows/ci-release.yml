@@ -25,6 +25,7 @@ jobs:
         run: |
           export POETRY_VERSION=1.7.1
           curl -sSL https://install.python-poetry.org | python3 -
+          poetry self add "poetry-dynamic-versioning[plugin]"
       - name: Build and Publish package
         run: |
           poetry publish --no-interaction --build --username __token__ --password ${{ secrets.PYPI_API_TOKEN }}
