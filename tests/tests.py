@@ -1,3 +1,5 @@
+from operator import attrgetter
+
 import pytest
 
 from pytest_lazy_fixtures import lf, lfc
@@ -102,6 +104,19 @@ def test_lazy_fixture_with_attrs(only_entity, entity_value):
 )
 def test_lazy_fixture_callable_with_func(message):
     assert message == "There is two lazy fixture args, 1 and 2! And one kwarg 3! And also simple value value"
+
+
+@pytest.mark.parametrize(
+    "value",
+    [
+        lfc(
+            attrgetter("value"),
+            lf("entity"),
+        ),
+    ],
+)
+def test_lazy_fixture_callable_with_class(value, entity):
+    assert value == entity.value
 
 
 @pytest.mark.parametrize(
