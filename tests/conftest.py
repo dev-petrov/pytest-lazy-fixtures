@@ -83,3 +83,8 @@ def fixture_a() -> str:
 @pytest.fixture
 def fixture_b() -> str:
     return "b"
+
+
+@pytest.fixture(params=["Alessio"])
+def username(request):
+    return request.param
