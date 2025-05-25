@@ -168,3 +168,18 @@ def test_foo(fixture2):
 )
 def test_dict_a_b(test_dict):
     assert test_dict == {"a": "b"}
+
+
+@pytest.mark.parametrize(
+    "filters",
+    [
+        {
+            "users": [
+                lfc(lambda v: v.upper(), lf("username")),
+                lfc(lambda v: v.lower(), lf("username")),
+            ]
+        },
+    ],
+)
+def test_smth(filters):
+    assert filters == {"users": ["ALESSIO", "alessio"]}
