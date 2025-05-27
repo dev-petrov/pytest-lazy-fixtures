@@ -181,5 +181,5 @@ def test_dict_a_b(test_dict):
         },
     ],
 )
-def test_smth(filters):
+def test_indirect_fixture(filters):
     assert filters == {"users": ["ALESSIO", "alessio"]}
