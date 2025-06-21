@@ -18,29 +18,26 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-      - name: Set up Python 3.8
+      - name: Set up Python
         uses: actions/setup-python@v5
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
         with:
-          python-version: "3.8"
-      - name: Install dependencies
-        run: |
-          export POETRY_VERSION=1.7.1
-          curl -sSL https://install.python-poetry.org | python3 -
-          poetry install --no-ansi --no-root
+          version: "0.7.13"
+      - name: Install Task
+        uses: arduino/setup-task@v2
+        with:
+          version: 3.44.0
       - name: Lint with ruff
-        run: |
-          poetry run ruff check --diff .
+        run: task ruff-lint
       - name: Format with ruff
-        run: |
-          poetry run ruff format --check --diff .
+        run: task ruff-format
       - name: Check type hints mypy
-        run: |
-          poetry run mypy .
+        run: task mypy
+      - name: Check dependencies with deptry
+        run: task deptry
       - name: Test with pytest
-        run: |
-          poetry run coverage run -m pytest -p pytest_lazy_fixtures.plugin && \
-          poetry run coverage report && \
-          poetry run coverage xml -o cov.xml
+        run: task test
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v5
         with:

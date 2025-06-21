@@ -11,18 +11,31 @@ repos:
         args: ["--maxkb=1024"]
   - repo: local
     hooks:
-      - id: ruff
-        name: ruff
-        entry: .venv/bin/ruff
-        args: [--force-exclude]
+      - id: ruff-lint
+        name: ruff-lint
+        entry: task ruff-lint
         language: system
+        pass_filenames: false
         types:
           - python
-      - id: black
-        name: black
-        exclude: migrations
-        args: [--check, --diff]
-        entry: .venv/bin/black
+      - id: ruff-format
+        name: ruff-format
+        entry: task ruff-format
         language: system
+        pass_filenames: false
+        types:
+          - python
+      - id: mypy
+        name: mypy
+        entry: task mypy
+        language: system
+        pass_filenames: false
+        types:
+          - python
+      - id: deptry
+        name: deptry
+        entry: task deptry
+        language: system
+        pass_filenames: false
         types:
           - python

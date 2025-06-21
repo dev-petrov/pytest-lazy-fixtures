@@ -77,7 +77,7 @@ def test_lazy_fixture_with_fixtures(item):
 
 
 @pytest.mark.parametrize(
-    "only_entity,entity_value",
+    ("only_entity", "entity_value"),
     [
         (
             lf("entity"),
@@ -183,3 +183,10 @@ def test_dict_a_b(test_dict):
 )
 def test_indirect_fixture(filters):
     assert filters == {"users": ["ALESSIO", "alessio"]}
+
+
+def test_fixture_not_callable(request):
+    fixture = lfc("entity")
+
+    with pytest.raises(TypeError, match="Passed fixture is not callable"):
+        fixture.get_func(request)

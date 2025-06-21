@@ -1,0 +1,84 @@
+version: "3"
+
+silent: true
+
+tasks:
+  run_cmd:
+    internal: true
+    vars:
+      CMD: "{{ .CMD }}"
+    cmd: python .venv/bin/activate_this.py && {{ .CMD }}
+
+  all:
+    deps:
+      - lint
+      - test
+
+  lint:
+    deps:
+      - ruff-lint
+      - ruff-format
+      - mypy
+      - deptry
+
+  .venv:
+    run: once
+    cmd: uv venv --allow-existing && uv sync --no-install-project
+
+  ruff-lint:
+    deps:
+      - .venv
+    cmd:
+      task: run_cmd
+      vars:
+        CMD: ruff check .
+
+  ruff-format:
+    deps:
+      - .venv
+    cmd:
+      task: run_cmd
+      vars:
+        CMD: ruff format --check --diff .
+
+  mypy:
+    deps:
+      - .venv
+    cmd:
+      task: run_cmd
+      vars:
+        CMD: mypy .
+
+  deptry:
+    deps:
+      - .venv
+    cmd:
+      task: run_cmd
+      vars:
+        CMD: deptry .
+
+  test:
+    deps:
+      - .venv
+    cmd:
+      task: run_cmd
+      vars:
+        CMD: pytest -vv --cov --cov-report=xml:cov.xml --cov-report=term-missing:skip-covered
+
+  publish:
+    deps:
+      - .venv
+    requires:
+      vars:
+        - PACKAGE_VERSION
+        - PUBLISH_USERNAME
+        - PUBLISH_PASSWORD
+    cmd:
+      task: run_cmd
+      vars:
+        CMD: |
+          uv version {{ .PACKAGE_VERSION }} \
+          && uv build \
+          && uv publish \
+            --username {{ .PUBLISH_USERNAME }} \
+            --password {{ .PUBLISH_PASSWORD }}

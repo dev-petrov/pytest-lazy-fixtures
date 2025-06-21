@@ -1,72 +1,67 @@
-[tool.poetry]
+[project]
 name = "pytest-lazy-fixtures"
 version = "0.0.0"
 description = "Allows you to use fixtures in @pytest.mark.parametrize."
-authors = ["Petrov Anton <antonp2@yandex.ru>"]
+authors = [{ name = "Petrov Anton", email = "antonp2@yandex.ru" }]
+requires-python = "~=3.8"
 readme = "README.md"
 license = "MIT"
-homepage = "https://github.com/dev-petrov/pytest-lazy-fixtures"
-repository = "https://github.com/dev-petrov/pytest-lazy-fixtures"
 keywords = ["tests", "pytest", "lazy", "fixture"]
-include = [{ path = "tests", format = ["sdist"] }]
+dependencies = ["pytest>=7"]
 
-[tool.poetry.dependencies]
-python = "^3.8"
-pytest = ">=7"
+[project.urls]
+Homepage = "https://github.com/dev-petrov/pytest-lazy-fixtures"
+Repository = "https://github.com/dev-petrov/pytest-lazy-fixtures"
 
-[tool.poetry.group.dev.dependencies]
-pre-commit = "^3.5.0"
-pytest-cov = "^4.1.0"
-ruff = "^0.3.0"
-mypy = "^1.8.0"
+[project.entry-points.pytest11]
+pytest_lazyfixture = "pytest_lazy_fixtures.plugin"
+
+[dependency-groups]
+dev = [
+  "pre-commit>=3.5.0,<4",
+  "pytest-cov>=4.1.0,<5",
+  "ruff>=0.3.0,<0.13",
+  "mypy>=1.8.0,<2",
+  "hatchling>=1.27.0",
+  "deptry>=0.20.0",
+]
+
+[tool.uv]
+package = true
+
+[tool.hatch.build.targets.sdist]
+include = ["tests"]
 
 [build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
+requires = ["hatchling"]
+build-backend = "hatchling.build"
 
 [tool.pytest.ini_options]
 python_files = ["tests.py", "test_*.py", "*_tests.py"]
 
-[tool.poetry.plugins."pytest11"]
-"pytest_lazyfixture" = "pytest_lazy_fixtures.plugin"
+[tool.coverage.run]
+source = ["pytest_lazy_fixtures"]
+
+[tool.coverage.report]
+exclude_also = ["if TYPE_CHECKING:"]
 
 [tool.ruff]
 line-length = 120
 target-version = "py38"
 # Exclude a variety of commonly ignored directories.
-exclude = [".git", ".venv"]
+extend-exclude = [".git", ".venv"]
 
 [tool.ruff.lint]
-select = [
-  "E",   # pycodestyle errors
-  "W",   # pycodestyle warnings
-  "F",   # pyflakes
-  "I",   # isort
-  "C",   # flake8-comprehensions
-  "B",   # flake8-bugbear
-  "T",   # flake8-print
-  "UP",  # pyupgrade
-  "N",   # pep8-naming
-  "COM", # flake8-commas
-  "SIM", # flake8-simplify
-]
-ignore = ["COM812"]
+select = ["ALL"]
+ignore = ["COM812", "D", "ANN", "SLF001", "TD", "FIX", "ISC001"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["S101", "ARG001", "PLR2004"]
 
 [tool.ruff.lint.mccabe]
 max-complexity = 10
-
-[tool.ruff.lint.pep8-naming]
-classmethod-decorators = ["classmethod"]
-
-[tool.setuptools.package-data]
-"pytest-lazy-fixtures" = ["py.typed"]
 
 [[tool.mypy.overrides]]
 # Disabled for tests because of dynamic nature of pytest
 module = "tests/*"
 disable_error_code = ["attr-defined"]
-
-[tool.poetry-dynamic-versioning]
-enable = true
-vcs = "git"
-pattern = '(?x)^(?P<base>\d+(\.\d+)*)$' # e.g. 0.1.0

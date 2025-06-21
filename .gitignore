@@ -100,3 +100,4 @@ cython_debug/
 
 # Mac files
 .DS_Store
+cov.xml
