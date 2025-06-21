@@ -9,7 +9,7 @@ tasks:
       - .venv
     vars:
       CMD: "{{ .CMD }}"
-    cmd: sh -c "source .venv/bin/activate && {{ .CMD }}"
+    cmd: bash -c "source .venv/bin/activate && {{ .CMD }}"
 
   all:
     desc: "Run lint and test"
