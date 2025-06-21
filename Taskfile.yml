@@ -7,7 +7,7 @@ tasks:
     internal: true
     vars:
       CMD: "{{ .CMD }}"
-    cmd: python .venv/bin/activate_this.py && {{ .CMD }}
+    cmd: python .venv/bin/activate_this.py && echo $PATH && {{ .CMD }}
 
   all:
     deps:
