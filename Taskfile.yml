@@ -5,6 +5,8 @@ silent: true
 tasks:
   run_cmd:
     internal: true
+    deps:
+      - .venv
     vars:
       CMD: "{{ .CMD }}"
     cmd: .venv/bin/python .venv/bin/activate_this.py && {{ .CMD }}
@@ -26,48 +28,37 @@ tasks:
     cmd: uv venv --allow-existing && uv sync --no-install-project
 
   ruff-lint:
-    deps:
-      - .venv
+    silent: false
     cmd:
       task: run_cmd
       vars:
         CMD: ruff check .
 
   ruff-format:
-    deps:
-      - .venv
     cmd:
       task: run_cmd
       vars:
         CMD: ruff format --check --diff .
 
   mypy:
-    deps:
-      - .venv
     cmd:
       task: run_cmd
       vars:
         CMD: mypy .
 
   deptry:
-    deps:
-      - .venv
     cmd:
       task: run_cmd
       vars:
         CMD: deptry .
 
   test:
-    deps:
-      - .venv
     cmd:
       task: run_cmd
       vars:
         CMD: pytest -vv --cov --cov-report=xml:cov.xml --cov-report=term-missing:skip-covered
 
   publish:
-    deps:
-      - .venv
     requires:
       vars:
         - PACKAGE_VERSION
