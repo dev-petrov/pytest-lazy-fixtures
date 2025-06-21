@@ -1,0 +1,83 @@
+version: "3"
+
+silent: true
+
+tasks:
+  run_cmd:
+    internal: true
+    deps:
+      - .venv
+    vars:
+      CMD: "{{ .CMD }}"
+    cmd: bash -c "source .venv/bin/activate && {{ .CMD }}"
+
+  all:
+    desc: "Run lint and test"
+    deps:
+      - lint
+      - test
+
+  lint:
+    desc: "Run all lint checks"
+    deps:
+      - ruff-lint
+      - ruff-format
+      - mypy
+      - deptry
+
+  .venv:
+    desc: "Create virtual environment"
+    run: once
+    cmd: uv venv --allow-existing && uv sync --no-install-project
+
+  ruff-lint:
+    desc: "Lint with ruff"
+    cmd:
+      task: run_cmd
+      vars:
+        CMD: ruff check .
+
+  ruff-format:
+    desc: "Format with ruff"
+    cmd:
+      task: run_cmd
+      vars:
+        CMD: ruff format --check --diff .
+
+  mypy:
+    desc: "Check type hints mypy"
+    cmd:
+      task: run_cmd
+      vars:
+        CMD: mypy .
+
+  deptry:
+    desc: "Check dependencies with deptry"
+    cmd:
+      task: run_cmd
+      vars:
+        CMD: deptry .
+
+  test:
+    desc: "Test with pytest"
+    cmd:
+      task: run_cmd
+      vars:
+        CMD: pytest -vv --cov --cov-report=xml:cov.xml --cov-report=term-missing:skip-covered
+
+  publish:
+    desc: "Publish python package to PyPi"
+    requires:
+      vars:
+        - PACKAGE_VERSION
+        - PUBLISH_USERNAME
+        - PUBLISH_PASSWORD
+    cmd:
+      task: run_cmd
+      vars:
+        CMD: |
+          uv version {{ .PACKAGE_VERSION }} \
+          && uv build \
+          && uv publish \
+            --username {{ .PUBLISH_USERNAME }} \
+            --password {{ .PUBLISH_PASSWORD }}

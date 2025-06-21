@@ -1,8 +1,4 @@
-# They are provided by a third-party and are governed by
-# separate terms of service, privacy policy, and support
-# documentation.
-
-name: Upload Python Package
+name: Publish Python Package
 
 on:
   release:
@@ -12,20 +8,25 @@ permissions:
   contents: read
 
 jobs:
-  deploy:
+  publish-package:
     runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v4
       - name: Set up Python
         uses: actions/setup-python@v5
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
         with:
-          python-version: "3.8"
-      - name: Install dependencies
-        run: |
-          export POETRY_VERSION=1.7.1
-          curl -sSL https://install.python-poetry.org | python3 -
-          poetry self add "poetry-dynamic-versioning[plugin]"
+          version: "0.7.13"
+      - name: Install Task
+        uses: arduino/setup-task@v2
+        with:
+          version: 3.44.0
       - name: Build and Publish package
         run: |
-          poetry publish --no-interaction --build --username __token__ --password ${{ secrets.PYPI_API_TOKEN }}
+          task \
+          PACKAGE_VERSION=${{ github.event.release.tag_name }} \
+          PUBLISH_USERNAME=__token__ \
+          PUBLISH_PASSWORD=${{ secrets.PYPI_API_TOKEN }}
+          publish
