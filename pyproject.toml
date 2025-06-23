@@ -3,7 +3,7 @@ name = "pytest-lazy-fixtures"
 version = "0.0.0"
 description = "Allows you to use fixtures in @pytest.mark.parametrize."
 authors = [{ name = "Petrov Anton", email = "antonp2@yandex.ru" }]
-requires-python = "~=3.8"
+requires-python = ">=3.8"
 readme = "README.md"
 license = "MIT"
 keywords = ["tests", "pytest", "lazy", "fixture"]
