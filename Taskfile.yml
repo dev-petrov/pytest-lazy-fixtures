@@ -11,7 +11,7 @@ tasks:
       CMD: "{{ .CMD }}"
     cmd: bash -c "source .venv/bin/activate && {{ .CMD }}"
 
-  all:
+  default:
     desc: "Run lint and test"
     deps:
       - lint
@@ -27,6 +27,8 @@ tasks:
 
   .venv:
     desc: "Create virtual environment"
+    sources:
+      - uv.lock
     run: once
     cmd: uv venv --allow-existing && uv sync --no-install-project
 
@@ -35,7 +37,7 @@ tasks:
     cmd:
       task: run_cmd
       vars:
-        CMD: ruff check .
+        CMD: ruff check --diff .
 
   ruff-format:
     desc: "Format with ruff"
