@@ -17,5 +17,5 @@ def load_lazy_fixtures(value, request: pytest.FixtureRequest):
         return {load_lazy_fixtures(key, request): load_lazy_fixtures(val, request) for key, val in value.items()}
     # we need to check exact type
     if type(value) in {list, tuple, set}:
-        return type(value)([load_lazy_fixtures(val, request) for val in value])
+        return type(value)(load_lazy_fixtures(val, request) for val in value)
     return value
