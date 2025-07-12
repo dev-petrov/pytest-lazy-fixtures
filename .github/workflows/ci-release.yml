@@ -28,5 +28,5 @@ jobs:
           task \
           PACKAGE_VERSION=${{ github.event.release.tag_name }} \
           PUBLISH_USERNAME=__token__ \
-          PUBLISH_PASSWORD=${{ secrets.PYPI_API_TOKEN }}
+          PUBLISH_PASSWORD=${{ secrets.PYPI_API_TOKEN }} \
           publish
