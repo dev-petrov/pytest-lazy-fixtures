@@ -151,11 +151,6 @@ def test(data):
     assert data.b == 2
 
 
-@pytest.fixture(params=["a", "b"])
-def fixture1(request):
-    return request.param
-
-
 def test_foo(fixture2):
     pass
 

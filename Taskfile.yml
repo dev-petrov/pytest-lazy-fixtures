@@ -13,17 +13,17 @@ tasks:
 
   default:
     desc: "Run lint and test"
-    deps:
-      - lint
-      - test
+    cmds:
+      - task: lint
+      - task: test
 
   lint:
     desc: "Run all lint checks"
-    deps:
-      - ruff-lint
-      - ruff-format
-      - mypy
-      - deptry
+    cmds:
+      - task: ruff-lint
+      - task: ruff-format
+      - task: mypy
+      - task: deptry
 
   .venv:
     desc: "Create virtual environment"
