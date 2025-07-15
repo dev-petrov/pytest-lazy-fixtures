@@ -3,7 +3,7 @@ import pytest
 from pytest_lazy_fixtures import lf
 from tests.entity import Entity
 
-pytest_plugins = ("pytest_lazy_fixtures.plugin",)
+pytest_plugins = ("pytest_lazy_fixtures.plugin", "pytester")
 
 
 @pytest.fixture
@@ -89,4 +89,9 @@ def fixture_b() -> str:
 
 @pytest.fixture(params=["Alessio"])
 def username(request):
+    return request.param
+
+
+@pytest.fixture(params=["a", "b"])
+def fixture1(request):
     return request.param

@@ -24,6 +24,7 @@ dev = [
   "mypy>=1.8.0,<2",
   "hatchling>=1.27.0",
   "deptry>=0.20.0",
+  "pytest-deadfixtures>=2.2.1",
 ]
 
 [tool.uv]
