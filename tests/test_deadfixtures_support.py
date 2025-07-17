@@ -168,6 +168,61 @@ def test_lazy_fixtures_collected_argnames_argvalues(pytester):
     assert result.ret == EXIT_CODE_SUCCESS, result.stdout
 
 
+def test_lazy_fixtures_collected_nested(pytester):
+    pytester.makepyfile(
+        """
+            import pytest
+            from pytest_lazy_fixtures import lf
+
+            class A:
+                a: int = 1
+
+
+            @pytest.fixture
+            def some_fixture():
+                return A
+
+            @pytest.mark.usefixtures()
+            @pytest.mark.parametrize("value", [lf("some_fixture.a")])
+            def test_simple(value):
+                assert 1 == value
+        """
+    )
+
+    result = pytester.runpytest("--dead-fixtures", plugins=("pytest_lazy_fixtures.plugin",))
+
+    assert result.ret == EXIT_CODE_SUCCESS, result.stdout
+
+
+def test_lazy_fixture_callable_nested_collected(pytester):
+    pytester.makepyfile(
+        """
+            import pytest
+            from pytest_lazy_fixtures import lfc, lf
+
+            class A:
+                def some_method(self, v): ...
+
+
+            @pytest.fixture
+            def some_fixture_func():
+                return A()
+
+            @pytest.fixture
+            def some_fixture():
+                return 1
+
+            @pytest.mark.parametrize("value", [lfc("some_fixture_func.some_method", lf("some_fixture"))])
+            def test_simple(value):
+                assert "1 test" == value
+        """
+    )
+
+    result = pytester.runpytest("--dead-fixtures", plugins=("pytest_lazy_fixtures.plugin",))
+
+    assert result.ret == EXIT_CODE_SUCCESS, result.stdout
+
+
 def test_lazy_fixtures_collected_parametrized_fixture_simple(pytester):
     pytester.makepyfile(
         """
