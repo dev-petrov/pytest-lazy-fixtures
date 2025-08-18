@@ -12,10 +12,15 @@ def load_lazy_fixtures(value, request: pytest.FixtureRequest):
         )
     if isinstance(value, LazyFixtureWrapper):
         return value.load_fixture(request)
-    # we need to check exact type
     if type(value) is dict:
-        return {load_lazy_fixtures(key, request): load_lazy_fixtures(val, request) for key, val in value.items()}
-    # we need to check exact type
-    if type(value) in {list, tuple, set}:
-        return type(value)(load_lazy_fixtures(val, request) for val in value)
+        for key in list(value):
+            value[load_lazy_fixtures(key, request)] = load_lazy_fixtures(value.pop(key), request)
+        return value
+    if type(value) is list:
+        for i, val in enumerate(value):
+            value[i] = load_lazy_fixtures(val, request)
+        return value
+    if type(value) in (set, tuple):
+        new_value = type(value)(load_lazy_fixtures(val, request) for val in value)
+        return value if value == new_value else new_value
     return value

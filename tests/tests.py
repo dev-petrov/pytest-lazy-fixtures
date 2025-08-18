@@ -185,3 +185,40 @@ def test_fixture_not_callable(request):
 
     with pytest.raises(TypeError, match="Passed fixture is not callable"):
         fixture.get_func(request)
+
+
+@pytest.fixture
+def value_for_is_test(request):
+    return request.param
+
+
+expected_dict = {"a": "b"}
+
+
+@pytest.mark.parametrize("value_for_is_test", [expected_dict], indirect=True)
+def test_is_dict(value_for_is_test):
+    assert value_for_is_test is expected_dict
+
+
+expected_list = [1, 2, 3]
+
+
+@pytest.mark.parametrize("value_for_is_test", [expected_list], indirect=True)
+def test_is_list(value_for_is_test):
+    assert value_for_is_test is expected_list
+
+
+expected_tuple = (1, 2, 3)
+
+
+@pytest.mark.parametrize("value_for_is_test", [expected_tuple], indirect=True)
+def test_is_tuple(value_for_is_test):
+    assert value_for_is_test is expected_tuple
+
+
+expected_set = {1, 2, 3}
+
+
+@pytest.mark.parametrize("value_for_is_test", [expected_set], indirect=True)
+def test_is_set(value_for_is_test):
+    assert value_for_is_test is expected_set
