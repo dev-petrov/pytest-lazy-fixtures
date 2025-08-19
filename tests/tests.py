@@ -1,6 +1,9 @@
+from __future__ import annotations
+
 from operator import attrgetter
 
 import pytest
+from pytest_fixture_classes import fixture_class
 
 from pytest_lazy_fixtures import lf, lfc
 from pytest_lazy_fixtures.lazy_fixture import LazyFixtureWrapper
@@ -222,3 +225,23 @@ expected_set = {1, 2, 3}
 @pytest.mark.parametrize("value_for_is_test", [expected_set], indirect=True)
 def test_is_set(value_for_is_test):
     assert value_for_is_test is expected_set
+
+
+@pytest.fixture
+def data():
+    return []
+
+
+@fixture_class(name="some")
+class Fixture:
+    data: list[str]
+
+    def __call__(self) -> list[str]:
+        self.data.append("some_value")
+        return self.data
+
+
+@pytest.mark.parametrize("value", [[lf("some")]])
+@pytest.mark.parametrize("value2", [True, False])
+def test_fixture_classes(value, value2):
+    assert value[0]() == ["some_value"]

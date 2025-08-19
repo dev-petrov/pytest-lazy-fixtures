@@ -4,23 +4,25 @@ from .lazy_fixture import LazyFixtureWrapper
 from .lazy_fixture_callable import LazyFixtureCallableWrapper
 
 
-def load_lazy_fixtures(value, request: pytest.FixtureRequest):
-    if isinstance(value, LazyFixtureCallableWrapper):
-        return value.get_func(request)(
-            *load_lazy_fixtures(value.args, request),
-            **load_lazy_fixtures(value.kwargs, request),
-        )
-    if isinstance(value, LazyFixtureWrapper):
-        return value.load_fixture(request)
-    if type(value) is dict:
-        for key in list(value):
-            value[load_lazy_fixtures(key, request)] = load_lazy_fixtures(value.pop(key), request)
+class LazyFixtureLoader:
+    def __init__(self, request: pytest.FixtureRequest):
+        self.request = request
+        self.lazy_fixture_loaded = False
+
+    def load_lazy_fixtures(self, value):
+        if isinstance(value, LazyFixtureCallableWrapper):
+            self.lazy_fixture_loaded = True
+            return value.get_func(self.request)(
+                *self.load_lazy_fixtures(value.args),
+                **self.load_lazy_fixtures(value.kwargs),
+            )
+        if isinstance(value, LazyFixtureWrapper):
+            self.lazy_fixture_loaded = True
+            return value.load_fixture(self.request)
+        if type(value) is dict:
+            new_value = {self.load_lazy_fixtures(key): self.load_lazy_fixtures(val) for key, val in value.items()}
+            return new_value if self.lazy_fixture_loaded else value
+        if type(value) in (list, set, tuple):
+            new_value = type(value)(self.load_lazy_fixtures(val) for val in value)
+            return new_value if self.lazy_fixture_loaded else value
         return value
-    if type(value) is list:
-        for i, val in enumerate(value):
-            value[i] = load_lazy_fixtures(val, request)
-        return value
-    if type(value) in (set, tuple):
-        new_value = type(value)(load_lazy_fixtures(val, request) for val in value)
-        return value if value == new_value else new_value
-    return value

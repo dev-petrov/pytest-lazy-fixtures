@@ -398,6 +398,19 @@ wheels = [
 ]
 
 [[package]]
+name = "pytest-fixture-classes"
+version = "1.0.3"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "pytest" },
+    { name = "typing-extensions" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/64/64/b73a75449af548c3cd4ae3fc04b05aead53444f95ef0fef0c7c77cad3198/pytest_fixture_classes-1.0.3.tar.gz", hash = "sha256:5aee41a63dbd2d6317ce5a5587a9cfc5a0f825589cb0e0c456b1c3c6d8edfa5a", size = 5542, upload-time = "2023-09-02T17:06:17.8Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/17/05/8b2e512f68ac726d19ee9d75c2f786fdb9ac62651ac89e114893704e5bbf/pytest_fixture_classes-1.0.3-py3-none-any.whl", hash = "sha256:0b1b3f0d2ccaa6fb620cbd9bf1b228979c5a1590627e6d0961fb73d29629221a", size = 5484, upload-time = "2023-09-02T17:06:15.844Z" },
+]
+
+[[package]]
 name = "pytest-lazy-fixtures"
 version = "0.0.0"
 source = { editable = "." }
@@ -414,6 +427,7 @@ dev = [
     { name = "pre-commit" },
     { name = "pytest-cov" },
     { name = "pytest-deadfixtures" },
+    { name = "pytest-fixture-classes" },
     { name = "ruff" },
 ]
 
@@ -428,6 +442,7 @@ dev = [
     { name = "pre-commit", specifier = ">=3.5.0,<4" },
     { name = "pytest-cov", specifier = ">=4.1.0,<5" },
     { name = "pytest-deadfixtures", specifier = ">=2.2.1" },
+    { name = "pytest-fixture-classes", specifier = ">=1.0.3" },
     { name = "ruff", specifier = ">=0.3.0,<0.13" },
 ]
 

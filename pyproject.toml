@@ -25,6 +25,7 @@ dev = [
   "hatchling>=1.27.0",
   "deptry>=0.20.0",
   "pytest-deadfixtures>=2.2.1",
+  "pytest-fixture-classes>=1.0.3",
 ]
 
 [tool.uv]
