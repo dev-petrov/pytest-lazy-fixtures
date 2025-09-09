@@ -148,6 +148,11 @@ def test_lazy_fixture_callable_with_attr_lf(result):
     assert result == 3
 
 
+@pytest.mark.parametrize("foo", [lfc(lambda one=42: str(one), lf("one"))])
+def test_lazy_fixture_callable_defaults_are_ignored(foo):
+    assert foo == "1"
+
+
 @pytest.mark.parametrize("data", [DataNamedTuple(a=1, b=2)])
 def test(data):
     assert data.a == 1
@@ -245,3 +250,42 @@ class Fixture:
 @pytest.mark.parametrize("value2", [True, False])
 def test_fixture_classes(value, value2):
     assert value[0]() == ["some_value"]
+
+
+class TestInjectionFromSignature:
+    @pytest.mark.parametrize("foo", [lfc(lambda one: str(one))])
+    def test_inject_from_signature_simple(self, foo):
+        assert foo == "1"
+
+    @pytest.mark.parametrize(
+        "foo",
+        [
+            lfc(lambda one: str(one), lf("two")),
+            lfc(lambda one: str(one), one=lf("two")),
+        ],
+    )
+    def test_inject_from_signature_override(self, foo):
+        assert foo == "2"
+
+    @pytest.mark.parametrize(
+        "foo",
+        [
+            lfc(lambda one, two: [str(one), str(two)], two=lf("three")),
+        ],
+    )
+    def test_inject_first_param_implicit_second_explicit(self, foo):
+        assert foo == ["1", "3"]
+
+    @pytest.mark.parametrize(
+        "foo",
+        [
+            lfc(lambda one, two: [str(one), str(two)], lf("three")),
+            lfc(lambda one, two: [str(one), str(two)], one=lf("three")),
+        ],
+    )
+    def test_inject_first_param_explicit_second_implicit(self, foo):
+        assert foo == ["3", "2"]
+
+    @pytest.mark.parametrize("foo", [lfc(lambda one=42: str(one))])
+    def test_defaults_prevent_implicit_injection(self, foo):
+        assert foo == "42"
