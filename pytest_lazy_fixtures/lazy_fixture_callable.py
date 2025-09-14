@@ -4,7 +4,7 @@ import inspect
 from inspect import isfunction
 from typing import TYPE_CHECKING, Callable
 
-from .lazy_fixture import LazyFixtureWrapper, lf
+from .lazy_fixture import LazyFixtureWrapper
 
 if TYPE_CHECKING:
     import pytest
