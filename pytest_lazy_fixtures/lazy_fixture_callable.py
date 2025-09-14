@@ -32,7 +32,7 @@ def _fill_unbound_params(
 
     unbound = [name for name in sig.parameters if name not in bound.arguments]
 
-    return {unbound_param: lf(unbound_param) for unbound_param in unbound}
+    return {unbound_param: LazyFixtureWrapper(unbound_param) for unbound_param in unbound}
 
 
 class LazyFixtureCallableWrapper(LazyFixtureWrapper):
