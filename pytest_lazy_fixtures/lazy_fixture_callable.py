@@ -23,7 +23,12 @@ def _fill_unbound_params(
     get mapped to lazy fixtures. Any parameters that have existing values provided
     maintain those values.
     """
-    sig = inspect.signature(func)
+
+    try:
+        sig = inspect.signature(func)
+    except (ValueError, TypeError):
+        # Cowardly refuse to figure out the missing params
+        return {}
 
     bound = sig.bind_partial(*args, **kwargs)
 
