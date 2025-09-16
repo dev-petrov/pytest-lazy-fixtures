@@ -148,6 +148,11 @@ def test_lazy_fixture_callable_with_attr_lf(result):
     assert result == 3
 
 
+@pytest.mark.parametrize("foo", [lfc(lambda one=42: str(one), lf("one"))])
+def test_lazy_fixture_callable_defaults_are_ignored(foo):
+    assert foo == "1"
+
+
 @pytest.mark.parametrize("data", [DataNamedTuple(a=1, b=2)])
 def test(data):
     assert data.a == 1
