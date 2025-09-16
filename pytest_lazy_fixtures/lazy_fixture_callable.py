@@ -56,7 +56,7 @@ class LazyFixtureCallableWrapper(LazyFixtureWrapper):
             )
             # If we have a direct callable, analyze its signature and pre-fill
             # any unbound parameters with lf(param_name).
-            self.kwargs |= _fill_unbound_params(self._func, self.args, self.kwargs)
+            self.kwargs.update(_fill_unbound_params(self._func, self.args, self.kwargs))
         else:
             self.name = callable_or_name
             self._func = None
