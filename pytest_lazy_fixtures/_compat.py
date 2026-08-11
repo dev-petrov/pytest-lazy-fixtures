@@ -16,7 +16,7 @@ def signature(func: Callable[..., object]) -> inspect.Signature:
     instead of evaluating them.
     """
     if sys.version_info >= (3, 14):
-        import annotationlib
+        import annotationlib  # noqa: PLC0415
 
         return inspect.signature(func, annotation_format=annotationlib.Format.FORWARDREF)
     return inspect.signature(func)
