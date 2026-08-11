@@ -27,7 +27,7 @@ def test_lfc_ignores_type_checking_only_annotation():
     # `Missing` never exists at runtime, mimicking an import guarded behind
     # `if TYPE_CHECKING:` (e.g. to avoid a circular import).
     class Thing:
-        def __init__(self, one: Missing) -> None:  # noqa: F821  (`Missing` is TYPE_CHECKING-only)
+        def __init__(self, one: Missing) -> None:  # type: ignore [name-defined] # noqa: F821  (`Missing` is TYPE_CHECKING-only)
             self.value = one
 
     # Building the lfc inspects Thing's signature. Before the fix this raised
